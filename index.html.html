@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>21Car For Rent — เช่าง่าย เอกสารไม่ยุ่งยาก</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #FFD000;
+    --gold-light: #FFE566;
+    --gold-dim: rgba(255,208,0,0.12);
+    --black: #0A0A0A;
+    --black-2: #111111;
+    --black-3: #1A1A1A;
+    --black-4: #232323;
+    --white: #FFFFFF;
+    --gray: #888888;
+    --gray-light: #CCCCCC;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Prompt', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,208,0,0.15);
+    transition: padding 0.3s;
+  }
+  nav.scrolled { padding: 14px 60px; }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+  .nav-logo-mark {
+    width: 42px; height: 42px;
+    background: var(--gold);
+    display: grid; place-items: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900; font-size: 18px;
+    color: var(--black);
+    clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
+  }
+  .nav-logo-text { font-size: 15px; font-weight: 500; letter-spacing: 0.08em; color: var(--white); }
+  .nav-logo-sub { font-size: 10px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; }
+
+  .nav-links { display: flex; align-items: center; gap: 40px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--gray-light);
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--gold); transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-cta {
+    background: var(--gold); color: var(--black);
+    padding: 10px 24px; border-radius: 2px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.1em;
+    text-decoration: none; text-transform: uppercase;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid; place-items: center;
+    position: relative; overflow: hidden;
+    padding: 120px 60px 80px;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 70% 50%, rgba(255,208,0,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,208,0,0.05) 0%, transparent 60%);
+  }
+
+  /* diagonal stripe */
+  .hero-stripe {
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 800px;
+    background: linear-gradient(135deg, rgba(255,208,0,0.06) 0%, transparent 60%);
+    transform: rotate(15deg);
+  }
+
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 1200px; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gold-dim); border: 1px solid rgba(255,208,0,0.3);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px; background: var(--gold);
+    border-radius: 50%; animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 5vw, 72px);
+    font-weight: 900; line-height: 1.05;
+    margin-bottom: 8px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-title em {
+    font-style: normal; color: var(--gold);
+    display: block;
+  }
+  .hero-subtitle {
+    font-size: 18px; color: var(--gray-light);
+    margin-bottom: 40px; line-height: 1.7;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 16px 36px; font-size: 14px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none; border-radius: 2px;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all 0.25s;
+    box-shadow: 0 0 40px rgba(255,208,0,0.2);
+  }
+  .btn-primary:hover {
+    background: var(--gold-light); transform: translateY(-2px);
+    box-shadow: 0 8px 40px rgba(255,208,0,0.35);
+  }
+
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    padding: 16px 36px; font-size: 14px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none; border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--gold); color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    display: flex; gap: 40px;
+    margin-top: 56px; padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px; font-weight: 700; color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label { font-size: 12px; color: var(--gray); letter-spacing: 0.1em; margin-top: 4px; }
+
+  /* hero visual */
+  .hero-visual {
+    position: relative;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-car-card {
+    background: var(--black-3);
+    border: 1px solid rgba(255,208,0,0.15);
+    border-radius: 4px;
+    padding: 40px;
+    position: relative; overflow: hidden;
+  }
+  .hero-car-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .hero-car-glow {
+    position: absolute; top: -60px; right: -60px;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(255,208,0,0.12) 0%, transparent 70%);
+  }
+  .hero-car-svg {
+    width: 100%; height: auto;
+    filter: drop-shadow(0 20px 40px rgba(255,208,0,0.15));
+  }
+  .hero-car-label {
+    margin-top: 24px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .hero-car-name { font-size: 20px; font-weight: 600; }
+  .hero-car-price { font-size: 13px; color: var(--gray); }
+  .hero-car-price strong { font-size: 24px; color: var(--gold); font-weight: 600; }
+
+  /* floating tags */
+  .hero-tag {
+    position: absolute;
+    background: var(--black-4); border: 1px solid rgba(255,208,0,0.2);
+    padding: 10px 16px; border-radius: 4px;
+    font-size: 12px; font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-tag.tag-1 { top: -20px; left: 20px; }
+  .hero-tag.tag-2 { bottom: -20px; right: 20px; }
+  .hero-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 60px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: ''; width: 32px; height: 1px; background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px); font-weight: 700;
+    line-height: 1.15; margin-bottom: 16px;
+  }
+  .section-title span { color: var(--gold); }
+
+  .section-desc {
+    font-size: 16px; color: var(--gray-light); line-height: 1.8;
+    max-width: 560px;
+  }
+
+  /* ── WHY US ── */
+  #why { background: var(--black-2); }
+
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    align-items: center; margin-top: 60px;
+  }
+
+  .feature-list { display: flex; flex-direction: column; gap: 32px; }
+
+  .feature-item {
+    display: flex; gap: 20px;
+    padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; transform: translateX(-20px);
+    transition: all 0.5s ease;
+  }
+  .feature-item.visible { opacity: 1; transform: translateX(0); }
+  .feature-item:last-child { border: none; padding-bottom: 0; }
+
+  .feature-icon {
+    width: 48px; height: 48px; flex-shrink: 0;
+    background: var(--gold-dim); border: 1px solid rgba(255,208,0,0.2);
+    display: grid; place-items: center;
+    font-size: 20px; border-radius: 4px;
+  }
+
+  .feature-title { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .feature-desc { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  .why-image-block {
+    position: relative;
+    opacity: 0; transform: translateX(20px);
+    transition: all 0.7s ease;
+  }
+  .why-image-block.visible { opacity: 1; transform: translateX(0); }
+
+  .why-card-main {
+    background: var(--black-3);
+    border: 1px solid rgba(255,208,0,0.12);
+    border-radius: 4px; padding: 48px;
+    position: relative; overflow: hidden;
+  }
+  .why-card-main::after {
+    content: '21';
+    position: absolute; bottom: -20px; right: -10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 140px; font-weight: 900;
+    color: rgba(255,208,0,0.05); line-height: 1;
+    pointer-events: none;
+  }
+
+  .why-big-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px; font-weight: 900; color: var(--gold); line-height: 1;
+    margin-bottom: 8px;
+  }
+  .why-big-label { font-size: 18px; font-weight: 500; margin-bottom: 8px; }
+  .why-big-desc { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  .why-mini-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+  .why-mini {
+    background: var(--black-4);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 20px; border-radius: 4px; text-align: center;
+  }
+  .why-mini-num { font-size: 28px; font-weight: 700; color: var(--gold); font-family: 'Playfair Display', serif; }
+  .why-mini-lbl { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+  /* ── FLEET ── */
+  #fleet { background: var(--black); }
+
+  .fleet-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 56px; flex-wrap: wrap; gap: 20px;
+  }
+
+  .filter-tabs {
+    display: flex; gap: 4px;
+    background: var(--black-3); padding: 4px; border-radius: 4px;
+  }
+  .filter-tab {
+    padding: 8px 20px; border-radius: 2px;
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; color: var(--gray); border: none; background: transparent;
+    transition: all 0.2s; font-family: 'Prompt', sans-serif;
+  }
+  .filter-tab.active, .filter-tab:hover { background: var(--gold); color: var(--black); font-weight: 600; }
+
+  .car-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  }
+
+  .car-card {
+    background: var(--black-3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px; overflow: hidden;
+    cursor: pointer; transition: all 0.3s;
+    position: relative;
+  }
+  .car-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,208,0,0.04) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .car-card:hover {
+    border-color: rgba(255,208,0,0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,208,0,0.1);
+  }
+  .car-card:hover::before { opacity: 1; }
+
+  .car-img-wrap {
+    height: 160px; background: var(--black-4);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .car-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.4s;
+  }
+  .car-card:hover .car-img-wrap img { transform: scale(1.05); }
+  .car-img-placeholder {
+    font-size: 64px; opacity: 0.15;
+  }
+
+  .car-type-badge {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--gold); color: var(--black);
+    font-size: 9px; font-weight: 700; letter-spacing: 0.15em;
+    padding: 4px 10px; text-transform: uppercase;
+  }
+
+  .car-info { padding: 20px; }
+  .car-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .car-specs { font-size: 12px; color: var(--gray); margin-bottom: 16px; }
+  .car-price-row { display: flex; justify-content: space-between; align-items: center; }
+  .car-price { font-size: 22px; font-weight: 700; color: var(--gold); font-family: 'Playfair Display', serif; }
+  .car-price span { font-size: 12px; font-weight: 400; color: var(--gray); font-family: 'Prompt', sans-serif; }
+
+  .car-book-btn {
+    background: transparent; border: 1px solid rgba(255,208,0,0.3);
+    color: var(--gold); padding: 6px 14px; font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+    border-radius: 2px; font-family: 'Prompt', sans-serif;
+    transition: all 0.2s;
+  }
+  .car-book-btn:hover { background: var(--gold); color: var(--black); }
+
+  /* ── HOW IT WORKS ── */
+  #how { background: var(--black-2); }
+
+  .steps-track {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin-top: 64px;
+    position: relative;
+  }
+  .steps-track::before {
+    content: ''; position: absolute;
+    top: 32px; left: 10%; right: 10%;
+    height: 1px; background: linear-gradient(90deg, transparent, rgba(255,208,0,0.4), transparent);
+  }
+
+  .step-item {
+    text-align: center; padding: 0 20px;
+    opacity: 0; transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+  .step-item.visible { opacity: 1; transform: translateY(0); }
+
+  .step-num {
+    width: 64px; height: 64px; margin: 0 auto 24px;
+    background: var(--black-3); border: 1px solid rgba(255,208,0,0.3);
+    display: grid; place-items: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; font-weight: 700; color: var(--gold);
+    border-radius: 50%; position: relative; z-index: 1;
+    transition: all 0.3s;
+  }
+  .step-item:hover .step-num {
+    background: var(--gold); color: var(--black);
+    box-shadow: 0 0 30px rgba(255,208,0,0.4);
+  }
+
+  .step-title { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+  .step-desc { font-size: 13px; color: var(--gray); line-height: 1.7; }
+
+  /* ── DOCS ── */
+  #docs { background: var(--black); }
+
+  .docs-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 60px; }
+
+  .doc-list { display: flex; flex-direction: column; gap: 16px; }
+  .doc-item {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--black-3); border: 1px solid rgba(255,255,255,0.06);
+    padding: 20px 24px; border-radius: 4px;
+    transition: all 0.25s;
+  }
+  .doc-item:hover {
+    border-color: rgba(255,208,0,0.25);
+    background: var(--black-4);
+  }
+  .doc-num {
+    width: 32px; height: 32px; flex-shrink: 0;
+    background: var(--gold); color: var(--black);
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 700; border-radius: 50%;
+  }
+  .doc-text { font-size: 15px; font-weight: 500; }
+  .doc-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+  .pricing-card {
+    background: var(--black-3);
+    border: 1px solid rgba(255,208,0,0.2);
+    border-radius: 4px; padding: 40px;
+    position: relative; overflow: hidden;
+  }
+  .pricing-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--gold);
+  }
+  .pricing-title { font-size: 14px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+  .pricing-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .pricing-row:last-of-type { border: none; }
+  .pricing-item-name { font-size: 14px; color: var(--gray-light); }
+  .pricing-item-val { font-size: 14px; font-weight: 600; color: var(--white); }
+  .pricing-item-val.gold { color: var(--gold); }
+
+  .pricing-note {
+    margin-top: 24px; padding: 16px;
+    background: rgba(255,208,0,0.06); border-left: 3px solid var(--gold);
+    font-size: 13px; color: var(--gray-light); line-height: 1.7;
+  }
+
+  /* ── REVIEWS ── */
+  #reviews { background: var(--black-2); }
+
+  .reviews-header { text-align: center; margin-bottom: 64px; }
+  .reviews-header .section-label { justify-content: center; }
+  .reviews-header .section-label::before { display: none; }
+
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  .review-card {
+    background: var(--black-3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px; padding: 28px;
+    transition: all 0.3s;
+  }
+  .review-card:hover {
+    border-color: rgba(255,208,0,0.2);
+    transform: translateY(-4px);
+  }
+
+  .review-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+  .review-text { font-size: 14px; color: var(--gray-light); line-height: 1.8; margin-bottom: 20px; font-style: italic; }
+  .review-author { font-size: 13px; font-weight: 600; }
+  .review-date { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--black); }
+
+  .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 60px; align-items: start; }
+
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+
+  .contact-method {
+    display: flex; gap: 20px; align-items: flex-start;
+    background: var(--black-3); border: 1px solid rgba(255,255,255,0.06);
+    padding: 24px; border-radius: 4px; text-decoration: none; color: var(--white);
+    transition: all 0.25s;
+  }
+  .contact-method:hover { border-color: rgba(255,208,0,0.3); transform: translateX(4px); }
+
+  .contact-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: var(--gold-dim); border: 1px solid rgba(255,208,0,0.2);
+    display: grid; place-items: center; font-size: 18px; border-radius: 4px;
+  }
+  .contact-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 4px; }
+  .contact-value { font-size: 15px; font-weight: 500; }
+  .contact-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+  .map-placeholder {
+    background: var(--black-3); border: 1px solid rgba(255,208,0,0.15);
+    border-radius: 4px; padding: 48px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; gap: 16px; min-height: 300px;
+  }
+  .map-icon { font-size: 48px; opacity: 0.6; }
+  .map-title { font-size: 18px; font-weight: 600; }
+  .map-desc { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  .service-area-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
+  .area-tag {
+    background: var(--gold-dim); border: 1px solid rgba(255,208,0,0.2);
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 12px; color: var(--gold-light);
+  }
+
+  /* ── CTA BAND ── */
+  #cta-band {
+    padding: 80px 60px;
+    background: linear-gradient(135deg, #1A1600 0%, #111100 50%, #0A0A0A 100%);
+    border-top: 1px solid rgba(255,208,0,0.2);
+    border-bottom: 1px solid rgba(255,208,0,0.2);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  #cta-band::before {
+    content: '';
+    position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(255,208,0,0.1) 0%, transparent 70%);
+  }
+  .cta-band-inner { position: relative; z-index: 1; }
+  .cta-band-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px); font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .cta-band-desc { font-size: 16px; color: var(--gray-light); margin-bottom: 36px; }
+  .cta-band-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #050505; padding: 60px 60px 30px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px; margin-bottom: 48px;
+  }
+  .footer-brand {}
+  .footer-brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; color: var(--gold); margin-bottom: 12px;
+  }
+  .footer-brand-desc { font-size: 14px; color: var(--gray); line-height: 1.8; max-width: 300px; }
+
+  .footer-col-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 20px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-col ul a { text-decoration: none; color: var(--gray); font-size: 14px; transition: color 0.2s; }
+  .footer-col ul a:hover { color: var(--white); }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06); padding-top: 28px;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-copy { font-size: 12px; color: var(--gray); }
+  .social-links { display: flex; gap: 12px; }
+  .social-link {
+    width: 36px; height: 36px;
+    background: var(--black-3); border: 1px solid rgba(255,255,255,0.08);
+    display: grid; place-items: center; border-radius: 4px;
+    color: var(--gray); font-size: 14px; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .social-link:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: all 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── LINE FLOAT BUTTON ── */
+  .line-float {
+    position: fixed; bottom: 30px; right: 30px; z-index: 99;
+    background: #06C755; color: white;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: grid; place-items: center; text-decoration: none;
+    font-size: 28px;
+    box-shadow: 0 4px 20px rgba(6,199,85,0.4);
+    transition: all 0.3s;
+    animation: floatBounce 3s ease-in-out infinite;
+  }
+  .line-float:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(6,199,85,0.5); }
+  @keyframes floatBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 70px 24px; }
+    #hero { padding: 100px 24px 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { order: -1; }
+    .hero-stats { gap: 24px; }
+    .car-grid { grid-template-columns: repeat(2, 1fr); }
+    .why-grid, .docs-layout, .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+    .steps-track { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .steps-track::before { display: none; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    footer { padding: 40px 24px 24px; }
+    #cta-band { padding: 60px 24px; }
+  }
+
+  @media (max-width: 600px) {
+    .car-grid { grid-template-columns: 1fr; }
+    .steps-track { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; }
+    .btn-primary, .btn-secondary { text-align: center; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">
+    <div class="nav-logo-mark">21</div>
+    <div>
+      <div class="nav-logo-text">21Car For Rent</div>
+      <div class="nav-logo-sub">Premium Car Rental</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#fleet">รถทั้งหมด</a></li>
+    <li><a href="#how">ขั้นตอน</a></li>
+    <li><a href="#docs">เอกสาร & ราคา</a></li>
+    <li><a href="#reviews">รีวิว</a></li>
+    <li><a href="#contact">ติดต่อ</a></li>
+  </ul>
+  <a href="https://lin.ee/06UB2UB" target="_blank" class="nav-cta">จองเลย →</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stripe"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">บริการรถเช่าขับเอง · กรุงเทพฯ</div>
+      <h1 class="hero-title">
+        รถเช่าคุณภาพ<br>
+        <em>เอกสารไม่ยุ่งยาก</em>
+      </h1>
+      <p class="hero-subtitle">
+        อนุมัติไว คุ้มค่า บริการส่งตามแนวรถไฟฟ้า<br>
+        เริ่มต้นเพียง <strong style="color:var(--gold)">690 บาท/วัน</strong>
+      </p>
+      <div class="hero-actions">
+        <a href="https://lin.ee/06UB2UB" target="_blank" class="btn-primary">
+          💬 แอดไลน์ จองเลย
+        </a>
+        <a href="#fleet" class="btn-secondary">ดูรถทั้งหมด →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">8+</div>
+          <div class="stat-label">รุ่นรถให้เลือก</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">690฿</div>
+          <div class="stat-label">เริ่มต้น/วัน</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">ลูกค้าพึงพอใจ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-tag tag-1">
+        <span class="dot"></span> พร้อมให้เช่าวันนี้
+      </div>
+      <div class="hero-car-card">
+        <div class="hero-car-glow"></div>
+        <!-- SVG Car Illustration -->
+        <svg class="hero-car-svg" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- car body shadow -->
+          <ellipse cx="200" cy="185" rx="150" ry="10" fill="rgba(0,0,0,0.4)"/>
+          <!-- car body -->
+          <rect x="40" y="115" width="320" height="60" rx="8" fill="#1e1e1e" stroke="rgba(255,208,0,0.2)" stroke-width="1"/>
+          <!-- car top -->
+          <path d="M100 115 L130 65 Q140 55 160 55 L240 55 Q260 55 270 65 L300 115 Z" fill="#252525" stroke="rgba(255,208,0,0.15)" stroke-width="1"/>
+          <!-- windshield -->
+          <path d="M135 112 L158 70 Q163 62 175 62 L225 62 Q237 62 242 70 L265 112 Z" fill="rgba(255,208,0,0.08)" stroke="rgba(255,208,0,0.2)" stroke-width="1"/>
+          <!-- windows side -->
+          <rect x="141" y="70" width="50" height="38" rx="3" fill="rgba(255,208,0,0.06)" stroke="rgba(255,208,0,0.15)" stroke-width="0.5"/>
+          <rect x="209" y="70" width="50" height="38" rx="3" fill="rgba(255,208,0,0.06)" stroke="rgba(255,208,0,0.15)" stroke-width="0.5"/>
+          <!-- door lines -->
+          <line x1="197" y1="115" x2="197" y2="155" stroke="rgba(255,208,0,0.1)" stroke-width="1"/>
+          <!-- headlights -->
+          <rect x="44" y="120" width="28" height="14" rx="4" fill="rgba(255,208,0,0.5)"/>
+          <rect x="44" y="120" width="28" height="14" rx="4" fill="rgba(255,208,0,0.3)" filter="url(#glow)"/>
+          <!-- tail lights -->
+          <rect x="328" y="120" width="28" height="14" rx="4" fill="rgba(255,60,60,0.5)"/>
+          <!-- grill -->
+          <rect x="44" y="138" width="28" height="20" rx="2" fill="#111" stroke="rgba(255,208,0,0.2)" stroke-width="1"/>
+          <line x1="44" y1="145" x2="72" y2="145" stroke="rgba(255,208,0,0.15)" stroke-width="0.5"/>
+          <line x1="44" y1="151" x2="72" y2="151" stroke="rgba(255,208,0,0.15)" stroke-width="0.5"/>
+          <!-- wheels -->
+          <circle cx="110" cy="168" r="22" fill="#111" stroke="rgba(255,208,0,0.3)" stroke-width="2"/>
+          <circle cx="110" cy="168" r="12" fill="#1a1a1a" stroke="rgba(255,208,0,0.5)" stroke-width="1.5"/>
+          <circle cx="110" cy="168" r="4" fill="var(--gold)"/>
+          <circle cx="290" cy="168" r="22" fill="#111" stroke="rgba(255,208,0,0.3)" stroke-width="2"/>
+          <circle cx="290" cy="168" r="12" fill="#1a1a1a" stroke="rgba(255,208,0,0.5)" stroke-width="1.5"/>
+          <circle cx="290" cy="168" r="4" fill="var(--gold)"/>
+          <!-- shine -->
+          <path d="M155 75 L175 68 L180 72 L160 79 Z" fill="rgba(255,255,255,0.05)"/>
+          <defs>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+        </svg>
+        <div class="hero-car-label">
+          <div>
+            <div class="hero-car-name">Fleet Premium</div>
+            <div style="font-size:12px;color:var(--gray);margin-top:4px">เช่าระยะสั้น & ยาว</div>
+          </div>
+          <div style="text-align:right">
+            <div class="hero-car-price">เริ่ม <strong>690฿</strong></div>
+            <div style="font-size:11px;color:var(--gray)">/วัน</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-tag tag-2">📍 ส่งตามแนวรถไฟฟ้า</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="container">
+    <div class="section-label">ทำไมต้องเลือก 21Car</div>
+    <h2 class="section-title">เช่าง่าย <span>อนุมัติไว</span><br>ไม่ยุ่งยาก</h2>
+    <div class="why-grid">
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <div>
+            <div class="feature-title">อนุมัติรวดเร็ว</div>
+            <div class="feature-desc">เอกสารน้อย ขั้นตอนไม่ซับซ้อน ติดต่อผ่านไลน์ ได้รถภายในวันเดียว</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🚗</div>
+          <div>
+            <div class="feature-title">ส่งถึงที่ ตามแนวรถไฟฟ้า</div>
+            <div class="feature-desc">บริการจัดส่งรถถึงจุดนัดพบตามแนวรถไฟฟ้า สะดวก ไม่ต้องเดินทางไกล</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💰</div>
+          <div>
+            <div class="feature-title">ราคาคุ้มค่า ยิ่งเช่านาน ยิ่งถูก</div>
+            <div class="feature-desc">เช่าระยะยาว 15 วันขึ้นไป รับราคาพิเศษ เริ่มต้นเพียง 690 บาท/วัน</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔒</div>
+          <div>
+            <div class="feature-title">ปลอดภัย มีประกัน</div>
+            <div class="feature-desc">ทุกคันมีประกันภัย เดินทางอุ่นใจ มีทีมงานดูแลตลอด</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="why-image-block">
+        <div class="why-card-main">
+          <div class="why-big-num">21</div>
+          <div class="why-big-label">Car For Rent</div>
+          <div class="why-big-desc">ให้บริการรถเช่าขับเองมาหลายปี<br>ลูกค้าไว้วางใจมาตลอด</div>
+          <div class="why-mini-cards">
+            <div class="why-mini">
+              <div class="why-mini-num">8+</div>
+              <div class="why-mini-lbl">รุ่นรถ</div>
+            </div>
+            <div class="why-mini">
+              <div class="why-mini-num">⭐ 5</div>
+              <div class="why-mini-lbl">คะแนนรีวิว</div>
+            </div>
+            <div class="why-mini">
+              <div class="why-mini-num">300฿</div>
+              <div class="why-mini-lbl">ค่าส่งขั้นต้น</div>
+            </div>
+            <div class="why-mini">
+              <div class="why-mini-num">1 วัน</div>
+              <div class="why-mini-lbl">อนุมัติไว</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET -->
+<section id="fleet">
+  <div class="container">
+    <div class="fleet-header">
+      <div>
+        <div class="section-label">เลือกรุ่นที่ชอบ</div>
+        <h2 class="section-title reveal">รถทั้งหมดของเรา</h2>
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterCars('all',this)">ทั้งหมด</button>
+        <button class="filter-tab" onclick="filterCars('eco',this)">ประหยัด</button>
+        <button class="filter-tab" onclick="filterCars('premium',this)">พรีเมียม</button>
+        <button class="filter-tab" onclick="filterCars('ev',this)">EV</button>
+      </div>
+    </div>
+    <div class="car-grid" id="carGrid">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:8px">
+      <div class="section-label" style="justify-content:center">
+        <span style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)">ขั้นตอนง่าย ๆ</span>
+      </div>
+      <h2 class="section-title reveal" style="text-align:center">จองรถใน <span>4 ขั้นตอน</span></h2>
+      <p class="section-desc reveal" style="margin:0 auto;text-align:center">ไม่ซับซ้อน ไม่เสียเวลา เริ่มจองได้เลย</p>
+    </div>
+    <div class="steps-track">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-title">แอดไลน์</div>
+        <div class="step-desc">แอดไลน์ @420sdpic (มี @) แจ้งวันที่ต้องการเช่าและรุ่นรถ</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-title">ส่งเอกสาร</div>
+        <div class="step-desc">ส่งสำเนาบัตร ประชาชน + ใบขับขี่ + บัตรพนักงาน/นักศึกษา</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-title">อนุมัติ & ชำระ</div>
+        <div class="step-desc">รอการอนุมัติรวดเร็ว ชำระค่าเช่า + ค่าประกัน 3,000 บาท</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-title">รับรถ</div>
+        <div class="step-desc">นัดรับรถหรือให้บริการส่งตามแนวรถไฟฟ้า เริ่มขับได้เลย!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCS & PRICING -->
+<section id="docs">
+  <div class="container">
+    <div class="section-label">เอกสาร & ราคา</div>
+    <h2 class="section-title reveal">เอกสารที่ต้องใช้ & <span>ค่าใช้จ่าย</span></h2>
+    <div class="docs-layout">
+      <div>
+        <div style="font-size:14px;color:var(--gray);margin-bottom:28px;line-height:1.8">
+          ก่อนแอดไลน์ <strong style="color:var(--gold)">@420sdpic</strong> (มี @ ด้านหน้า) เตรียมเอกสารดังนี้
+        </div>
+        <div class="doc-list">
+          <div class="doc-item reveal">
+            <div class="doc-num">1</div>
+            <div>
+              <div class="doc-text">สำเนาบัตรประชาชน</div>
+              <div class="doc-sub">ถ่ายรูปหรือสแกนชัดเจน</div>
+            </div>
+          </div>
+          <div class="doc-item reveal">
+            <div class="doc-num">2</div>
+            <div>
+              <div class="doc-text">สำเนาใบขับขี่</div>
+              <div class="doc-sub">ยังไม่หมดอายุเท่านั้น</div>
+            </div>
+          </div>
+          <div class="doc-item reveal">
+            <div class="doc-num">3</div>
+            <div>
+              <div class="doc-text">บัตรพนักงาน / บัตรนักศึกษา</div>
+              <div class="doc-sub">หรือเอกสารแสดงการเป็นเจ้าของกิจการ</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:32px">
+          <a href="https://lin.ee/06UB2UB" target="_blank" class="btn-primary" style="display:inline-flex">
+            📋 ส่งเอกสารทางไลน์
+          </a>
+        </div>
+      </div>
+
+      <div class="pricing-card reveal">
+        <div class="pricing-title">ค่าใช้จ่ายเบื้องต้น</div>
+        <div class="pricing-row">
+          <div class="pricing-item-name">ค่าเช่ารถ (≥15 วัน)</div>
+          <div class="pricing-item-val gold">เริ่ม 690 ฿/วัน</div>
+        </div>
+        <div class="pricing-row">
+          <div class="pricing-item-name">ค่าบริการส่งรถ</div>
+          <div class="pricing-item-val">300 – 500 ฿</div>
+        </div>
+        <div class="pricing-row">
+          <div class="pricing-item-name">ค่าประกันรถยนต์</div>
+          <div class="pricing-item-val">3,000 ฿</div>
+        </div>
+        <div class="pricing-row">
+          <div class="pricing-item-name">ค่าล้างรถ (กรณีไม่ล้างก่อนคืน)</div>
+          <div class="pricing-item-val">หักจากประกัน</div>
+        </div>
+        <div class="pricing-note">
+          💡 <strong>หมายเหตุ:</strong> ค่าบริการส่งรถคิดตามระยะทางจริง แนวรถไฟฟ้าทุกสาย
+          ค่าประกันคืนเต็มเมื่อส่งรถครบสภาพดี
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="container">
+    <div class="reviews-header">
+      <div class="section-label">รีวิวจากลูกค้า</div>
+      <h2 class="section-title reveal" style="text-align:center">ลูกค้าพูดถึง <span>21Car</span></h2>
+    </div>
+    <div class="reviews-grid" id="reviewGrid"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">ติดต่อเรา</div>
+    <h2 class="section-title reveal">พร้อมให้บริการ <span>ทุกวัน</span></h2>
+    <div class="contact-layout">
+      <div class="contact-info">
+        <a href="https://lin.ee/06UB2UB" target="_blank" class="contact-method">
+          <div class="contact-icon">💬</div>
+          <div>
+            <div class="contact-label">LINE Official</div>
+            <div class="contact-value">@420sdpic</div>
+            <div class="contact-sub">ช่องทางหลัก · ตอบไวที่สุด</div>
+          </div>
+        </a>
+        <a href="https://www.facebook.com/21CarforRent" target="_blank" class="contact-method">
+          <div class="contact-icon">📘</div>
+          <div>
+            <div class="contact-label">Facebook</div>
+            <div class="contact-value">21Car for Rent</div>
+            <div class="contact-sub">ติดตามโปรโมชั่นและรีวิว</div>
+          </div>
+        </a>
+        <a href="https://www.tiktok.com/@21car.rent" target="_blank" class="contact-method">
+          <div class="contact-icon">🎵</div>
+          <div>
+            <div class="contact-label">TikTok</div>
+            <div class="contact-value">@21car.rent</div>
+            <div class="contact-sub">ดูรีวิวและวิดีโอรถ</div>
+          </div>
+        </a>
+        <a href="https://www.youtube.com/@21CarforRent-q7n" target="_blank" class="contact-method">
+          <div class="contact-icon">▶️</div>
+          <div>
+            <div class="contact-label">YouTube</div>
+            <div class="contact-value">21Car for Rent</div>
+            <div class="contact-sub">รีวิวรถและการเช่า</div>
+          </div>
+        </a>
+      </div>
+      <div>
+        <div class="map-placeholder reveal">
+          <div class="map-icon">📍</div>
+          <div class="map-title">บริการส่งรถ ตามแนวรถไฟฟ้า</div>
+          <div class="map-desc">ครอบคลุมทุกสาย BTS, MRT, ARL<br>ทั่วกรุงเทพฯ และปริมณฑล</div>
+          <div class="service-area-tags">
+            <span class="area-tag">สุขุมวิท</span>
+            <span class="area-tag">สีลม</span>
+            <span class="area-tag">รัชดา</span>
+            <span class="area-tag">ลาดพร้าว</span>
+            <span class="area-tag">พระราม 9</span>
+            <span class="area-tag">บางนา</span>
+            <span class="area-tag">อ่อนนุช</span>
+            <span class="area-tag">มีนบุรี</span>
+          </div>
+          <a href="https://lin.ee/06UB2UB" target="_blank" class="btn-primary" style="margin-top:8px;font-size:13px">สอบถามพื้นที่</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div id="cta-band">
+  <div class="cta-band-inner">
+    <h2 class="cta-band-title">พร้อมเช่ารถแล้วหรือยัง?</h2>
+    <p class="cta-band-desc">แอดไลน์ได้เลย อนุมัติไว เอกสารไม่ยุ่งยาก บริการส่งถึงที่</p>
+    <div class="cta-band-actions">
+      <a href="https://lin.ee/06UB2UB" target="_blank" class="btn-primary">💬 แอดไลน์ @420sdpic</a>
+      <a href="https://www.facebook.com/21CarforRent" target="_blank" class="btn-secondary">📘 Facebook</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-brand-name">21Car For Rent</div>
+      <div class="footer-brand-desc">บริการรถเช่าขับเอง กรุงเทพฯ เช่าง่าย อนุมัติไว เอกสารไม่ยุ่งยาก บริการส่งตามแนวรถไฟฟ้าทุกสาย</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">เมนู</div>
+      <ul>
+        <li><a href="#fleet">รถทั้งหมด</a></li>
+        <li><a href="#how">ขั้นตอนการเช่า</a></li>
+        <li><a href="#docs">เอกสาร & ราคา</a></li>
+        <li><a href="#reviews">รีวิวลูกค้า</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">ติดต่อ</div>
+      <ul>
+        <li><a href="https://lin.ee/06UB2UB" target="_blank">LINE: @420sdpic</a></li>
+        <li><a href="https://www.facebook.com/21CarforRent" target="_blank">Facebook</a></li>
+        <li><a href="https://www.tiktok.com/@21car.rent" target="_blank">TikTok</a></li>
+        <li><a href="https://www.youtube.com/@21CarforRent-q7n" target="_blank">YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2024 21Car For Rent · เช่าง่าย เอกสารไม่ยุ่งยาก</div>
+    <div class="social-links">
+      <a href="https://www.facebook.com/21CarforRent" target="_blank" class="social-link">f</a>
+      <a href="https://lin.ee/06UB2UB" target="_blank" class="social-link">L</a>
+      <a href="https://www.tiktok.com/@21car.rent" target="_blank" class="social-link">♪</a>
+      <a href="https://www.youtube.com/@21CarforRent-q7n" target="_blank" class="social-link">▶</a>
+    </div>
+  </div>
+</footer>
+
+<!-- LINE FLOAT -->
+<a href="https://lin.ee/06UB2UB" target="_blank" class="line-float" title="แอดไลน์">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+</a>
+
+<script>
+// Car data
+const cars = [
+  { name: 'Honda City 2014', price: 690, type: 'eco', badge: 'ประหยัด', specs: 'เบนซิน · 4 ประตู · ออโต้', emoji: '🚗' },
+  { name: 'Toyota Vios 2018', price: 790, type: 'eco', badge: 'ยอดนิยม', specs: 'เบนซิน · 4 ประตู · ออโต้', emoji: '🚙' },
+  { name: 'Toyota Yaris Ativ 17-22', price: 1250, type: 'eco', badge: 'ประหยัด', specs: 'เบนซิน · 4 ประตู · CVT', emoji: '🚗' },
+  { name: 'Honda City 1.0 SV', price: 1250, type: 'premium', badge: 'พรีเมียม', specs: 'เทอร์โบ · 4 ประตู · CVT', emoji: '🚘' },
+  { name: 'Toyota Yaris Ativ โฉมใหม่', price: 1350, type: 'premium', badge: 'ใหม่ล่าสุด', specs: 'เบนซิน · 4 ประตู · CVT', emoji: '🚗' },
+  { name: 'Honda HRV', price: 1350, type: 'premium', badge: 'SUV', specs: 'เบนซิน · 5 ประตู · CVT', emoji: '🚙' },
+  { name: 'Honda City Hatchback', price: 1350, type: 'premium', badge: 'พรีเมียม', specs: 'เทอร์โบ · 5 ประตู · CVT', emoji: '🚘' },
+  { name: 'MG4 EV', price: 1550, type: 'ev', badge: 'EV ไฟฟ้า', specs: 'ไฟฟ้า 100% · 5 ประตู · Single Speed', emoji: '⚡' },
+];
+
+function renderCars(filter = 'all') {
+  const grid = document.getElementById('carGrid');
+  const filtered = filter === 'all' ? cars : cars.filter(c => c.type === filter);
+  grid.innerHTML = filtered.map((car, i) => `
+    <div class="car-card" style="animation-delay:${i*0.07}s">
+      <div class="car-img-wrap">
+        <div class="car-img-placeholder">${car.emoji}</div>
+        <div class="car-type-badge">${car.badge}</div>
+      </div>
+      <div class="car-info">
+        <div class="car-name">${car.name}</div>
+        <div class="car-specs">${car.specs}</div>
+        <div class="car-price-row">
+          <div class="car-price">${car.price.toLocaleString()}<span> ฿/วัน</span></div>
+          <button class="car-book-btn" onclick="window.open('https://lin.ee/06UB2UB','_blank')">จอง</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCars(type, btn) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderCars(type);
+}
+
+renderCars();
+
+// Reviews data
+const reviews = [
+  { text: 'ประทับใจมากค่ะ เอกสารน้อย อนุมัติไว ได้รถภายในวันเดียว คนขับส่งถึงที่เลย สะดวกสุด ๆ', author: 'คุณมิ้น', date: 'ลูกค้าประจำ', stars: 5 },
+  { text: 'รถสะอาด สภาพดีมาก ราคาคุ้มค่าเมื่อเทียบกับที่อื่น บริการส่งถึงสถานีรถไฟฟ้า ไม่ต้องเดินทางไปรับเอง', author: 'คุณโอม', date: 'เช่า Toyota Vios', stars: 5 },
+  { text: 'เช่า MG4 EV ดีมากครับ ประหยัดค่าน้ำมันไปเยอะ ทีมงานแนะนำวิธีชาร์จให้ละเอียดมาก', author: 'คุณแบงค์', date: 'เช่า MG4 EV', stars: 5 },
+  { text: 'เช่าระยะยาว 1 เดือน ราคาดีมากค่ะ เจ้าของใจดี ตอบไลน์ไวตลอด ได้รถตามนัด', author: 'คุณนุ่น', date: 'เช่าระยะยาว', stars: 5 },
+  { text: 'บริการดีมากครับ ส่งรถถึงหน้าออฟฟิศเลย เอกสารไม่ยุ่งยากจริง ๆ อย่างที่บอก จะกลับมาเช่าอีกแน่นอน', author: 'คุณต้น', date: 'เช่า Honda HRV', stars: 5 },
+  { text: 'ครั้งแรกที่เช่ารถ กังวลมากเลยค่ะ แต่พอคุยกับทีมงานแล้วใจชื้นเลย อธิบายขั้นตอนละเอียดมาก ไม่งงเลย', author: 'คุณแนน', date: 'ลูกค้าใหม่', stars: 5 },
+];
+
+document.getElementById('reviewGrid').innerHTML = reviews.map((r,i) => `
+  <div class="review-card reveal" style="transition-delay:${i*0.1}s">
+    <div class="review-stars">${'★'.repeat(r.stars)}</div>
+    <p class="review-text">"${r.text}"</p>
+    <div class="review-author">${r.author}</div>
+    <div class="review-date">${r.date}</div>
+  </div>
+`).join('');
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal, .feature-item, .step-item, .why-image-block, .why-grid .feature-list .feature-item').forEach(el => observer.observe(el));
+
+// Re-observe feature items
+setTimeout(() => {
+  document.querySelectorAll('.feature-item, .step-item, .why-image-block').forEach(el => observer.observe(el));
+}, 100);
+
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+});
+</script>
+</body>
+</html>
